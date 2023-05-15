@@ -3,5 +3,6 @@ from .views import *
 urlpatterns = [
     path('measure_unit/', MeasureUnitList.as_view(),name='measure_unit' ),
     path('indicator/', IndicatorList.as_view(),name='indicator' ),
-    path('category_product/', CategoryProductList.as_view(),name='category_product' )
+    path('category_product/', CategoryProductList.as_view(),name='category_product' ),
+    path('product/', ProductList.as_view(),name='product' )
 ]

@@ -8,3 +8,6 @@ las cosas que solamente  se administran mediante el admin o la bbdd como
 la unidad de medida, no hace falta hacerle metodos post put etc, pues eso 
 desde el front no tiene sentido de ser administrado, desde el front tiene sentido 
 administrar los productos
+
+
+-20

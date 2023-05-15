@@ -32,3 +32,11 @@ class CategoryProductList(generics.ListAPIView):
     def get_queryset(self):
        return CategoryProduct.objects.filter(state=True)
 
+
+class ProductList(generics.ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        return Producto.objects.filter(state=True)
+    
+    
