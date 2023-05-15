@@ -1,0 +1,10 @@
+En esta API mostramos la forma de trabajar con APIVIEWS en el caso de 
+users.views, donde trabajamos funciones. Tambien trabajamos con views 
+de clases, como el caso de products.views 
+
+
+
+las cosas que solamente  se administran mediante el admin o la bbdd como 
+la unidad de medida, no hace falta hacerle metodos post put etc, pues eso 
+desde el front no tiene sentido de ser administrado, desde el front tiene sentido 
+administrar los productos
