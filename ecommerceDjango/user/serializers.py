@@ -16,7 +16,10 @@ class UserSerializer(serializers.ModelSerializer):
 #indica en que forma se muestra la info serializada cuando se la 
 #llama en una query get 
 
-
+class UserTokenSeralizer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'email')
 
 
 

@@ -10,4 +10,25 @@ desde el front no tiene sentido de ser administrado, desde el front tiene sentid
 administrar los productos
 
 
--20
+----VIEWSETS!!!!!(teoria)
+
+los viewsets son agrupaciones de todos los metodos HTTP en una sola clase 
+es decir, una clase valida para post,put,delete,update
+En otras palabras, a partir de 2 o 3 parametros la viewset puede crear un CRUD 
+en unas pocas lineas de codigo 
+
+La reglamentacion REST dice que las rutas deben tener funciones especificas, 
+donde a product pueda hacerle get,post,put,delete. En este caso tenemos 
+un post en create_product, un get en product, etc, todo distribuido en urls diferentes 
+Las viewsets arreglan esta aglomeracion de urls, comprimiendo todo en una sola, 
+tal como pide rest 
+
+Las viewsets no se pueden enlazar a urls, debemos enlazarlos a routers!!
+
+
+---routers!!!
+
+--sigue en routers.py 
+
+
+

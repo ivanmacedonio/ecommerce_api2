@@ -71,7 +71,7 @@ class Indicator(BaseModel):
 class Producto(BaseModel):
     name = models.CharField(unique=True, blank=False, null=False,max_length=150)
     description = models.TextField(blank=False, null=False)
-    image = models.ImageField(upload_to='products/',blank=True, null=True)
+    image = models.ImageField(upload_to='products/',blank=True, null=True)#upload_to = *ruta donde se va a hacer el post de la imagen*
     category_product = models.ForeignKey(CategoryProduct, on_delete=models.CASCADE, null=True)
     measure_unit = models.ForeignKey(MeasureUnit,on_delete=models.CASCADE,null=True)
     historical = HistoricalRecords()

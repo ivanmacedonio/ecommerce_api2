@@ -1,0 +1,30 @@
+TOKEN --- 
+
+Si no usamos tokens, la informacion de cada sesion de un usuario debia  ser 
+guardada en la base de datos, lo que provoda perdida de rendimiento, escalabilidad 
+y eficiencia.
+
+Cada vez que  el usuario envia una peticion, esta peticion llega al backend
+acompañada de un token que permite identificar al usuario, y este token se almacena 
+en en cache del dispositivo del current user, evitando guardar info en la base de datos 
+
+El uso de token permite hacer que el usuario envie peticiones sin 
+loguearse antes de realizar cada una de estas, pues cuando realiza su login 
+se almacena un token temporal en su cache y este es usado para la validacion 
+constante a medida que dicho usuario envia las peticiones al servidor 
+
+
+
+
+JWT ---- 
+
+Es un token el tiene encriptado dentro de el mismo una firma,  en el caso de 
+modificar el token para acceso malicioso, se modifica la firma y el token 
+deniega el acceso 
+
+Se envia el login a la bbdd, si el user y pass coincide con el registro en 
+la bbdd, se le genera un JWT al current user con la correspondiente firma.
+
+Cuando  se hace una peticion, junto a  ella se envia el JWT para ser evaluado.
+Si la firma es correcta, se autoriza la peticion.
+
