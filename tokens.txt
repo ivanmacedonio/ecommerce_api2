@@ -29,4 +29,8 @@ Cuando  se hace una peticion, junto a  ella se envia el JWT para ser evaluado.
 Si la firma es correcta, se autoriza la peticion.
 
 
--34, 26:13
+!!!!!!!!!!!!!!!!!
+ESTA CODEADA LA AUTENTICACION MANUAL, PERO PARA LA API EN SI 
+VAMOS A USAR SIMPLEJWT 
+
+37 tipos de auth 

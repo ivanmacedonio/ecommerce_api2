@@ -10,7 +10,7 @@ from rest_framework import viewsets
 from user import Authentication
 
 
-class ProductViewSet(Authentication,viewsets.ModelViewSet):
+class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     queryset = ProductSerializer.Meta.model.objects.filter(state=True)
     
