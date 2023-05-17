@@ -8,6 +8,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from django.contrib.sessions.models import Session
 from datetime import datetime
+from authentication import Authentication
 
 @api_view(['GET','POST'])#darle decorador apiview indicando  que metodo aceptara
 #le da el formato valido para trabajar como una API, pues lo valida para 
@@ -115,3 +116,19 @@ class Logout(APIView):
         
         
 
+
+class UserToken(Authentication,APIView): #valida el token
+    def get(self,request,*args,**kwargs):
+        
+        try:
+            user_token,_ = Token.objects.get_or_create( #como getorcreate retorna 2 valores y solo quiero uno, indico _
+                user=self.user) #extrae del login
+            user = UserTokenSeralizer(self.user)
+            return Response({
+                'token':user_token.key,
+                'user' : user.data
+            })
+        except:
+            return Response({'error' : 'Credenciales enviadas incorrectas'},
+                            status=status.HTTP_400_BAD_REQUEST)
+        

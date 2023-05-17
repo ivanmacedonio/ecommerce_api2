@@ -9,4 +9,5 @@ urlpatterns = [
     path('usuario/', include('user.urls')),
     path('products/', include('products.urls')),
     path('products_viewset/', include('products.routers')),
+    path('refresh-token/', UserToken.as_view(), name='refresh-token'),
 ]

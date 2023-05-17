@@ -28,3 +28,5 @@ la bbdd, se le genera un JWT al current user con la correspondiente firma.
 Cuando  se hace una peticion, junto a  ella se envia el JWT para ser evaluado.
 Si la firma es correcta, se autoriza la peticion.
 
+
+-34, 26:13

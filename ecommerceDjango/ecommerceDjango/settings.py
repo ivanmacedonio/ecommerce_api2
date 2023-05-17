@@ -34,6 +34,8 @@ INSTALLED_APPS = [
 
 ]
 
+TOKEN_EXPIRED_AFTER_SECONDS = 350
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

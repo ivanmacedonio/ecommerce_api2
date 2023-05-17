@@ -7,9 +7,10 @@ from rest_framework import generics
 from .models import *
 from .serializers import *
 from rest_framework import viewsets
+from user import Authentication
 
 
-class ProductViewSet(viewsets.ModelViewSet):
+class ProductViewSet(Authentication,viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     queryset = ProductSerializer.Meta.model.objects.filter(state=True)
     
@@ -25,6 +26,7 @@ class MeasureUnitList(generics.ListAPIView):
 A una listAPIView con indicarle la consulta ya es suficiente para que liste 
 los objetos que trae dicha query. Es el mismo proceso de cuando usabamos def 
 en la view de users, pero de otra forma
+
 '''
 
 
