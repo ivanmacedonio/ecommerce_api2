@@ -7,13 +7,15 @@ from rest_framework import generics
 from .models import *
 from .serializers import *
 from rest_framework import viewsets
-from user import Authentication
+from rest_framework.permissions import IsAuthenticated
 
 
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
+    #permission_classes=  (IsAuthenticated,) #Para acceder a esta view,se requiere estar autenticado, es decir tener un token
     queryset = ProductSerializer.Meta.model.objects.filter(state=True)
-    
+#la auth solo es necesaria para esta view, si la codeo en settings todas las 
+#vistas tendran autenticacion
 
 class MeasureUnitList(generics.ListAPIView): 
 #listAPIView se utiliza cuando la view unicamente listara una query

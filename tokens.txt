@@ -33,4 +33,13 @@ Si la firma es correcta, se autoriza la peticion.
 ESTA CODEADA LA AUTENTICACION MANUAL, PERO PARA LA API EN SI 
 VAMOS A USAR SIMPLEJWT 
 
-37 tipos de auth 
+REST_FRAMEWORK = {
+    ...
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        ...
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+    ...
+}
+
+30 22:41
