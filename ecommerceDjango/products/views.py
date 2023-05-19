@@ -8,7 +8,22 @@ from .models import *
 from .serializers import *
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response  import Response
+from rest_framework import status
 
+#para modificar el request
+def validate_files(request,field,update=False):
+    request=request.copy() #copiamos la data del request
+
+    if update:
+        if type(request[field]) == str:
+            request.__delitem__(field) 
+    else:
+        if type(request[field]) == str: 
+            request.__setitem__(field,None)
+#si  nos llega undefined o un str, al campo que le indique (field), le asigne un none 
+#en vez de undefined
+    return request #retornamos la COPIA, pues el original es inmutable
 
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
@@ -16,6 +31,30 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = ProductSerializer.Meta.model.objects.filter(state=True)
 #la auth solo es necesaria para esta view, si la codeo en settings todas las 
 #vistas tendran autenticacion
+    def create(self,request):
+#la interfaz le asigna "undefined" a image si no se envia nada, asique validamos
+#request data es inmutable, no podemos modificarlo, a no ser que implementemos lo siguiente
+
+        data=validate_files(request.data,'image')
+        serializer =  self.serializer_class(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Producto creado correctamente'},
+                            status=status.HTTP_201_CREATED)
+        return Response({'message':'error en la creacion'},
+                        status=status.HTTP_400_BAD_REQUEST)
+    
+    def update(self,request,pk=None):
+        
+        if self.get_queryset(pk):
+            data = validate_files(request.data,'image',True)
+            product_serializer  =self.serializer_class(self.get_queryset(pk), data=data)
+            if product_serializer.is_valid():
+                product_serializer.save()
+                return Response({'message':'actualizado'}, status=status.HTTP_200_OK)
+            return Response({'message': 'Error en el update'},status=status.HTTP_400_BAD_REQUEST)
+        
+    
 
 class MeasureUnitList(generics.ListAPIView): 
 #listAPIView se utiliza cuando la view unicamente listara una query

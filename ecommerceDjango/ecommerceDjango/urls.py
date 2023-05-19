@@ -1,5 +1,7 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include,re_path
+from django.conf import settings
+from django.views.static import serve
 from user.views import *
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -31,3 +33,9 @@ Una peticion con access autoriza la peticion
 la blacklist es consultable desde el admin de Django!
 
 '''
+
+urlpatterns += [
+    re_path(r'^media/(?P<path>.*)$', serve, {
+        'document_root': settings.MEDIA_ROOT,
+    }),
+    ]

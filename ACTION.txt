@@ -1,0 +1,2 @@
+Solo los generics y model viewsets permiten asignarles decoradores de action 
+

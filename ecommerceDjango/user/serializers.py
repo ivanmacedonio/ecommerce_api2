@@ -8,6 +8,11 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+class UpdateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'name', 'last_name')
+
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -19,6 +24,15 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'username' : instance.id,
             'password' : instance.password
         }
+    
+class PassSerializer(serializers.Serializer):
+    password = serializers.CharField(max_length=128, min_length=6)
+    password2 = serializers.CharField(max_length=128, min_length=6)
+
+    def validate(self,data):
+        if data['password'] != data['password2']:
+            raise serializers.ValidationError({'passoword': 'No coinciden las password'})
+        return data
     
 class UserlISTSerializer(serializers.ModelSerializer):
     class Meta:

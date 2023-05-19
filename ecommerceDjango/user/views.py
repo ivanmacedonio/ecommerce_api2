@@ -11,6 +11,7 @@ from rest_framework_simplejwt.views import (
 from django.contrib.auth import authenticate
 from rest_framework.generics import GenericAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.decorators import action
 
 '''
 @api_view(['GET','POST'])#darle decorador apiview indicando  que metodo aceptara
@@ -190,7 +191,22 @@ class UserViewSet(viewsets.GenericViewSet): #es un viewset que no se basa en un 
     
     def get_object(self,pk): #basado en un pk traer el objeto o un raise
         return self.serializer_class().Meta.model.objects.get(id=pk)
-    
+   
+#Colocarle el decorador action a una funcion dentro de una clase, hace que
+#dicha funcion sea una ruta dentro de la ruta de la clase. En este caso podemos 
+#acceder a dicha funcionalidad accendiendo primero a la ruta de UserViewSet/change_password    
+    @action(detail=True,methods=['post']) #detail indica que sera una ruta dentro de otra
+    def change_password(self,request,pk=None):
+        user = self.get_object(pk)
+        pass_serializer = PassSerializer(data=request.data)
+        if pass_serializer.is_valid(): #la validacion esta sobreescrita en el serializer, pues no usamos modelserializer, ya que serializamos una instancia no una tabla
+            user.set_password(pass_serializer.validated_data['password'])
+            user.save()
+            return Response({'message': 'Pass updated!'},status=status.HTTP_200_OK)
+        return Response({'message': 'Error en la validacion'},
+                        status=status.HTTP_400_BAD_REQUEST)
+#sirve para asignarle a los viewsets funciones que no sean las que trae definidas 
+#por defecto, que son list,create,delete,etc... 
     def list(self,request):     
         users = self.get_queryset()
         users_serializer = self.list_serializer_class(users,many=True)
@@ -208,7 +224,25 @@ class UserViewSet(viewsets.GenericViewSet): #es un viewset que no se basa en un 
         if user is not None:
             user_serializer = self.serializer_class(user)
             return Response(user_serializer.data, status=status.HTTP_200_OK)
-        return Response({'message': 'No see encontro el user'},status=status.HTTP_404_NOT_FOUND)
+        return Response({'message': 'No se encontro el user'},status=status.HTTP_404_NOT_FOUND)
     
 
+    def update(self,request,pk=None):
+        user = self.get_object(pk)
+        user_serializer = UpdateUserSerializer(user, data=request.data) #usamos un serializer especifico ya que si usamos el serializer general, este nos va a pedir todos los campos y en el update generalmente se actualizan unos pocos campos, no todos
+        if user_serializer.is_valid():
+            user_serializer.save()
+            return Response({'message': 'Usuario updateado!'},
+                            status=status.HTTP_200_OK)
+        return Response ({'message': 'Hay errores en la actualizacion',
+                         'errors': user_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
+
+    def destroy(self,request,pk=None):
+        user = self.get_object(pk)
+        user_destroy = self.model.objects.filter(id=pk).update(is_active=False)
+        #update retorna la cantidad de filas afectadas, en este caso si se elimino correctamente debe retornar un 1
+        if user_destroy == 1:
+            return Response({'message':'Usuario eliminado correctamente'})
+        return Response({'message': 'No existe un usuario con este id'},status=status.HTTP_404_NOT_FOUND)
+    

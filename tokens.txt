@@ -42,4 +42,3 @@ REST_FRAMEWORK = {
     ...
 }
 
-30 22:41
