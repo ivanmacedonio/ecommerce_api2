@@ -69,6 +69,8 @@ class ProductSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return {
             "id": instance.id,
+            "stock": instance.stock.get('quantity__sum',0) if instance.stock.get('quantity__sum') is not None else 0,
+#toma el campo quantity, donde su clave es quantity__sum, (nombre de campo __ operacion), por defecto es 0
             "description": instance.description,
             "image": instance.image.url if instance.image!= '' else '',
             "measure_unit": instance.measure_unit.description,

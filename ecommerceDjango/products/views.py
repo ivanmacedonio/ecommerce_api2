@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response  import Response
 from rest_framework import status
 
+
 #para modificar el request
 def validate_files(request,field,update=False):
     request=request.copy() #copiamos la data del request

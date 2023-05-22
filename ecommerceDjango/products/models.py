@@ -3,6 +3,7 @@ from base.models import BaseModel
 from simple_history.models import HistoricalRecords
 
 
+
 class MeasureUnit(BaseModel): #indicamos que hereda los campos del modelo padre
     description = models.CharField(max_length=50,blank=False,null=False,unique=True)
     historical = HistoricalRecords()
@@ -75,6 +76,7 @@ class Producto(BaseModel):
     category_product = models.ForeignKey(CategoryProduct, on_delete=models.CASCADE, null=True)
     measure_unit = models.ForeignKey(MeasureUnit,on_delete=models.CASCADE,null=True)
     historical = HistoricalRecords()
+    
 
     @property
     def _history_user(self):
@@ -89,5 +91,19 @@ class Producto(BaseModel):
         verbose_name_plural = 'Productos'
 
     def __str__(self):
-        return f'{self.name} -- {self.description}'
+        return self.name
+    
+    @property #gracias a este decorador podemos llamar a la funcion como  si fuera un campo del modelo
+    def stock(product): #el stock es una variable que cambia constantemente, asique lo asignamos a una funcion
+        from django.db.models import Sum
+        from gastos.models import Expense #como expense ya esta llamdo, lo llamamos donde lo requerimos
+
+        expenses =  Expense.objects.filter(
+            product = product,
+            state=True
+            ).aaggregate(Sum('quantity')) #acumulamos en expenses la suma de las cantidades de los productos que trajo
+        #si hay 10 lavarropas, expenses vale 10
+
+        return expenses #retorna el stock del producto
+    
     
